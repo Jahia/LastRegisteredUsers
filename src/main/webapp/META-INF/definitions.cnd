@@ -3,3 +3,5 @@
 
 [jnt:lastRegisteredUsers] > jnt:content, jmix:queryContent, mix:title
  - numberUsers (long) mandatory
+ - startDate (date)
+ - endDate (date)

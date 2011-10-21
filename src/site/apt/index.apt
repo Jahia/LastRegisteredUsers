@@ -1,1 +1,80 @@
-LastRegisteredUsers
+Jahia 6.5 - Last Registered Users Module
+ 
+* Goals Overview
+
+  This module displays the recently registered users into a Jahia Site. The users created via the module "Form for User Registration"
+and also the ones created via the Administration interface will be displayed by this module.
+
+* Characteristics
+
+	* Displays the recently created users sorted by creation date (most recent first).
+	
+	* The displayed users can be filtered via start and end date. 
+	
+	* The number of displayed users can be controlled in the CMS.
+	
+	* The default 'Guest' user is not included in the user list.
+	
+	* This module is not displayed for 'Guest' users.
+	
+	* Implemented via JCR Queries.
+ 
+* Usage
+
+  To use this module, just add the "Last Registered Users" module to any page and fill the following fields:
+
+	* numberUsers (long - mandatory): Number of users that is going to be displayed by the module.
+	
+	* startDate / endDate (date - optional): This two fields work according to the following rule:
+
++-----------------------------------------------
+rule "Case A"   
+   when
+       The property startDate and endDate has been set
+   then
+       Display users between that range
+end
+
+rule "Case B"   
+   when
+       The property startDate has been set and endDate not
+   then
+       Display users since the start date
+end
+
+rule "Case C"   
+   when
+       The property endDate has been set and startDate not
+   then
+       Display users that were created before the endDate
+end
++------------------------------------------------
+	  
+* Custom Views
+
+  This module comes with two views: the "Default" and the "Detailed" view. The views are rendered by the files /src/main/webapp/jnt_lastRegisteredUsers/html/lastRegisteredUsers.jsp and 
+/src/main/webapp/jnt_lastRegisteredUsers/html/lastRegisteredUsers.detailed.jsp, respectively.\
+The difference here is that the detailed view displays the username, creation date, first name, last name, email, and node type. In the other hand, the default view displays only the username and the creation date.\
+<<Note1:>> If you want to add a new view, just create a new jsp file in the folder jnt_lastRegisteredUsers/html in the way lastRegisteredUsers.<view name>.jsp.\
+<<Note2:>> If you want to customize the styles of this module, you can modify the file src/main/webapp/css/lastregistered.css  
+
+* Localization 
+
+  This module has been built in order to support localization. For that reason its jsp's use the tag \<fmt:message\> to use the properties defined in the properties files
+src/main/webapp/resources/LastRegisteredUsers.properties and LastRegisteredUsers_fr.properties. The properties are:
+
+	* jnt_lastRegisteredUsers.errorMessage: Message that appears when a Guest user access this module.
+	
+	* jnt_lastRegisteredUsers.noResults: No results message.
+	
+	* jnt_lastRegisteredUsers.userNameLabel: Username label that appears on the left hand side of the username value for each result (Used on both views).
+	
+	* jnt_lastRegisteredUsers.creationDateLabel: Creation date label that appears on the left hand side of the creation date value for each result (Used on both views).
+	
+	* jnt_lastRegisteredUsers.firstNameLabel: First name label that appears on the left hand side of the fist name value for each result (Used only in the detailed view).
+	
+	* jnt_lastRegisteredUsers.lastNameLabel: Last name label that appears on the left hand side of the last name value for each result (Used only in the detailed view).
+	
+	* jnt_lastRegisteredUsers.emailLabel: Email label that appears on the left hand side of the email value for each result (Used only in the detailed view).
+	
+	* jnt_lastRegisteredUsers.primaryTypeLabel: Node Type label that appears on the left hand side of the node type value for each result (Used only in the detailed view).

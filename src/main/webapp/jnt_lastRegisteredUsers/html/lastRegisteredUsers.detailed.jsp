@@ -16,7 +16,7 @@
 		</p>	
 		<jsp:useBean id="sinceProcessing" class="org.jahia.modules.lastregisteredusers.DateTranslation"  scope="request"/>
 		<jsp:setProperty name="sinceProcessing" property="startDate" value="${currentNode.properties['startDate'].string}"/>
-		<jsp:setProperty name="sinceProcessing" property="endDate" value="${currentNode.properties['endDate'].string}"/>			
+		<jsp:setProperty name="sinceProcessing" property="endDate" value="${currentNode.properties['endDate'].string}"/>	
 		<div id="latestUsers">
 			<jcr:sql var="lastRegistered" sql="select * from [jnt:user] as u ${sinceProcessing.jcrConstraint} order by u.[jcr:created] desc" limit="${currentNode.properties['numberUsers'].string}"/>
 			 <c:forEach items="${lastRegistered.nodes}" var="user">
@@ -24,11 +24,15 @@
 				 	<strong><fmt:message key='jnt_lastRegisteredUsers.userNameLabel'/>:</strong> ${user.name}<br/>
 				 	<strong><fmt:message key='jnt_lastRegisteredUsers.creationDateLabel'/>:</strong>
 				 	<fmt:parseDate var="dateObj" value="${user.propertiesAsString['jcr:created']}" type="DATE" pattern="yyyy-MM-dd"/>		 	        
-					<fmt:formatDate value="${dateObj}" pattern="MMM dd, yyyy"/>
+					<fmt:formatDate value="${dateObj}" pattern="MMM dd, yyyy"/><br/>
+					<strong><fmt:message key='jnt_lastRegisteredUsers.firstNameLabel'/>:</strong> ${user.propertiesAsString['j:firtsName']}<br/>
+					<strong><fmt:message key='jnt_lastRegisteredUsers.lastNameLabel'/>:</strong> ${user.propertiesAsString['j:lastName']}<br/>
+					<strong><fmt:message key='jnt_lastRegisteredUsers.emailLabel'/>:</strong> ${user.propertiesAsString['email']}<br/>
+					<strong><fmt:message key='jnt_lastRegisteredUsers.primaryTypeLabel'/>:</strong> ${user.propertiesAsString['jcr:primaryType']}
 					<br/><br/>
 				</c:if>
 			 </c:forEach>
-			<c:if test="${lastRegistered.nodes.size == 0}">
+			 <c:if test="${lastRegistered.nodes.size == 0}">
 				<strong><fmt:message key='jnt_lastRegisteredUsers.noResults'/></strong>
 			</c:if>
 		</div>
@@ -37,4 +41,4 @@
 	<c:otherwise>
 		<div><strong><fmt:message key='jnt_lastRegisteredUsers.errorMessage'/></strong></div>
 	</c:otherwise>
-</c:choose>
+</c:choose>	
