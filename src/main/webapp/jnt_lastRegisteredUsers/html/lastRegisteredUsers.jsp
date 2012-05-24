@@ -10,27 +10,33 @@
 
 <c:choose>
 	<c:when test="${currentUser.name != 'guest'}" >
-	<div id="lastRegisteredUsers Container">
+	<div id="lastRegisteredUsersContainer">
 		<p class="lastusersheader">
-			<span>${currentNode.propertiesAsString['jcr:title']}</span><br/>
+			<span>${currentNode.propertiesAsString['jcr:title']}</span>
 		</p>	
 		<jsp:useBean id="sinceProcessing" class="org.jahia.modules.lastregisteredusers.DateTranslation"  scope="request"/>
 		<jsp:setProperty name="sinceProcessing" property="startDate" value="${currentNode.properties['startDate'].string}"/>
 		<jsp:setProperty name="sinceProcessing" property="endDate" value="${currentNode.properties['endDate'].string}"/>			
-		<div id="latestUsers">
-			<jcr:sql var="lastRegistered" sql="select * from [jnt:user] as u ${sinceProcessing.jcrConstraint} order by u.[jcr:created] desc" limit="${currentNode.properties['numberUsers'].string}"/>
-			 <c:forEach items="${lastRegistered.nodes}" var="user">
-			 	<c:if test="${user.name != 'guest'}" >
-				 	<strong><fmt:message key='jnt_lastRegisteredUsers.userNameLabel'/>:</strong> ${user.name}<br/>
-				 	<strong><fmt:message key='jnt_lastRegisteredUsers.creationDateLabel'/>:</strong>
-				 	<fmt:parseDate var="dateObj" value="${user.propertiesAsString['jcr:created']}" type="DATE" pattern="yyyy-MM-dd"/>		 	        
-					<fmt:formatDate value="${dateObj}" pattern="MMM dd, yyyy"/>
-					<br/><br/>
-				</c:if>
-			 </c:forEach>
-			<c:if test="${lastRegistered.nodes.size == 0}">
-				<strong><fmt:message key='jnt_lastRegisteredUsers.noResults'/></strong>
-			</c:if>
+		<div id="latestUsers">		
+			<jcr:sql var="lastRegistered" sql="select * from [jnt:user] as u ${sinceProcessing.jcrConstraint} order by u.[jcr:created] desc" limit="${currentNode.properties['numberUsers'].string}"/>		 
+			 <c:choose>
+				 <c:when test="${lastRegistered.nodes.size != 0}">
+					 <ul>
+					 <c:forEach items="${lastRegistered.nodes}" var="user">
+					 	<c:if test="${user.name != 'guest'}" >
+						 	<li><strong><fmt:message key='jnt_lastRegisteredUsers.userNameLabel'/>:</strong> ${user.name},
+						 	<strong><fmt:message key='jnt_lastRegisteredUsers.creationDateLabel'/>:</strong>
+						 	<fmt:parseDate var="dateObj" value="${user.propertiesAsString['jcr:created']}" type="DATE" pattern="yyyy-MM-dd"/>		 	        
+							<fmt:formatDate value="${dateObj}" pattern="MMM dd, yyyy"/>
+							</li>				
+						</c:if>
+					 </c:forEach>
+					 </ul>
+					 </c:when>
+					<c:otherwise>
+						<fmt:message key='jnt_lastRegisteredUsers.noResults'/>
+					</c:otherwise>	
+			</c:choose>
 		</div>
 	</div>
 	</c:when>
