@@ -2,8 +2,7 @@ Jahia 6.5 - Last Registered Users Module
  
 * Goals Overview
 
-  This module displays the recently registered users into a Jahia Site. The users created via the module "Form for User Registration"
-and also the ones created via the Administration interface will be displayed by this module.
+  This module lists the last registered users in the system sorted by creation date.
 
 * Characteristics
 
@@ -63,7 +62,7 @@ The difference here is that the detailed view displays the username, creation da
   This module has been built in order to support localization. For that reason its jsp's use the tag \<fmt:message\> to use the properties defined in the properties files
 src/main/webapp/resources/LastRegisteredUsers.properties and LastRegisteredUsers_fr.properties. The properties are:
 
-	* jnt_lastRegisteredUsers.errorMessage: Message that appears when a Guest user access this module.
+	* jnt_lastRegisteredUsers.errorMessage: Message that appears when a Guest user access to this module.
 	
 	* jnt_lastRegisteredUsers.noResults: No results message.
 	
